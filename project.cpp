@@ -159,7 +159,7 @@ void myKeyboard ( unsigned char key, int mouseX, int mouseY )
   GLint y = screenHeight - mouseY;
   switch( key )
   {
-	case 'j':
+	case 'J':
 		printf("jump\n");
     // cout << "j before " << *j << endl;
     if(j[0] == 0){
@@ -167,8 +167,8 @@ void myKeyboard ( unsigned char key, int mouseX, int mouseY )
       j[1] = 1;
     }
     // cout << "j after " << *j << endl;
-	// break;
-  case 'r':
+	break;
+  case 'j':
     printf("run\n");
     px += 8;
     px = px%500;
