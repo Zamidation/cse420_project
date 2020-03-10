@@ -3,8 +3,7 @@
 #include <stdlib.h>
 #include <GL/glut.h>
 #include <math.h>
-#include "SDL/SDL.h"
-
+#include "SDL2/SDL.h"
 
 #define X .525731112119133606 
 #define Z .850650808352039932
