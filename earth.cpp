@@ -149,9 +149,17 @@ void display(void)
    planet(models, 20);   // sun
    glPopMatrix();
 
+
+   glPushMatrix();
+   glRotatef(ay, 0,1,0);
+   glScalef(.5,.5,.5);
+   glTranslatef(10,0,0);
+   planet(models, 10);
+   glPopMatrix();
+
    glTranslatef ( 3, 0, 0 );
    glScalef(.5,.5,.5);
-
+   
    planet(models, 18);   // earth
 
    glTranslatef (2, 0, 0 );
