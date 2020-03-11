@@ -15,7 +15,6 @@ float a = 8;
 float b = 8;
 float c = 8;
 
-
 void light_switch0();
 void light_switch1();
 
@@ -44,39 +43,34 @@ void init(void)
    glLightfv(GL_LIGHT1, GL_DIFFUSE, light );
    glLightfv(GL_LIGHT1, GL_AMBIENT, light );
    glLightfv(GL_LIGHT1, GL_SPECULAR, light );
-//   glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
+   // glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
    glEnable(GL_LIGHTING);
    light_switch0();
    // glEnable(GL_LIGHT0);
    light_switch1();
    // glEnable(GL_LIGHT1);
                                                                                 
-  // glColorMaterial(GL_FRONT, GL_DIFFUSE);
- //  glEnable(GL_COLOR_MATERIAL);
-  glMatrixMode( GL_PROJECTION );
-  glLoadIdentity();
-  //glOrtho(-2.0, 2.0, -2.0, 2.0, 0.1, 100 );
-  glOrtho(-5.0, 5.0, -5.0, 5.0, 0.1, 100 );
+   glColorMaterial(GL_FRONT, GL_DIFFUSE);
+   glEnable(GL_COLOR_MATERIAL);
+   glMatrixMode( GL_PROJECTION );
+   glLoadIdentity();
+   // glOrtho(-2.0, 2.0, -2.0, 2.0, 0.1, 100 );
+   glOrtho(-5.0, 5.0, -5.0, 5.0, 0.1, 100 );
 }
 
 void model(int model_number)
 {
-
    switch (model_number)
    {
-   case 0:
-      glutWireCube(1.0);
-      break;
-   
-   case 1:
-      glutSolidSphere(1.0,100,50);
-     break;
-
-   default:
-      break;
+      case 0:
+         glutWireCube(1.0);
+         break; 
+      case 1:
+         glutSolidSphere(1.0,100,50);
+         break;
+      default:
+         break;
    }
-
-
 }
 
 void planet(int model_number, float spin_rate)
@@ -86,12 +80,10 @@ void planet(int model_number, float spin_rate)
    model(model_number);
    glRotatef(ay * spin_rate,0,1,0);
    // glPopMatrix();
-
 }
 
 bool* l0 = new bool(0);
 bool* l1 = new bool(0);
-
 
 void light_switch0()
 {
@@ -125,23 +117,22 @@ void light_switch1()
 void display(void)
 {
    
-  glMatrixMode(GL_MODELVIEW); // position and aim the camera
-//   glFrustum (-1.0, 1.0, -1.0, 1.0, 1.5, 20.0);
+   glMatrixMode(GL_MODELVIEW); // position and aim the camera
+   glFrustum (-1.0, 1.0, -1.0, 1.0, 1.5, 20.0);
       
-  glLoadIdentity();
-  gluLookAt(a, b, c, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+   glLoadIdentity();
+   gluLookAt(a, b, c, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   
-  glColor3f ( 1, 0, 0 );	//This would have no effect 
-  glEnable( GL_CULL_FACE );
-  glCullFace ( GL_BACK );
+   glColor3f ( 1, 0, 0 );	//This would have no effect 
+   glEnable( GL_CULL_FACE );
+   glCullFace ( GL_BACK );
   
-  int models = 1;
-  if ( translate )
-  {
-     models = 0;
-  }
+   int models = 1;
+   if ( translate )
+   {
+      models = 0;
+   }
 
    glRotatef ( ay, 0, 1, 0 ); // spin of sun
 
@@ -150,11 +141,11 @@ void display(void)
    glPopMatrix();
 
 
-   glPushMatrix();
+   glPushMatrix();   // another planet
    glRotatef(ay, 0,1,0);
-   glScalef(.5,.5,.5);
-   glTranslatef(10,0,0);
-   planet(models, 10);
+   glTranslatef(5,0,0);
+   glScalef(.25,.25,.25);
+   planet(models, 10);  
    glPopMatrix();
 
    glTranslatef ( 3, 0, 0 );
@@ -172,9 +163,7 @@ void display(void)
 
    planet(models, 10);  // moon of moon
 
-
-
-  glFlush();
+    glFlush();
    //   SDL_Delay ( 500 ); 
 }
 
@@ -194,8 +183,8 @@ void SpecialInput(int key, int x, int y)
       case GLUT_KEY_LEFT:
          c -= 1;
          break;
-   default:
-      break;
+      default:
+         break;
    }
    glutPostRedisplay();
 }
@@ -203,24 +192,20 @@ void SpecialInput(int key, int x, int y)
 void keyboard ( unsigned char key, int mousex, int mousey )
 {
    switch ( key ) {
-     case 27:       // escape
-       exit ( -1 );
-     case 't':
-       if ( translate )
-         translate = false;        
-       else
-         translate = true;
-
-      break;
-   case '0':
-      light_switch0();
-
-      break;
-   case '1':
-      light_switch1();
-
-   break;
-
+      case 27:       // escape
+         exit ( -1 );
+      case 't':
+         if ( translate )
+            translate = false;        
+         else
+            translate = true;
+         break;
+      case '0':
+         light_switch0();
+         break;
+      case '1':
+         light_switch1();
+         break;
    }
    glutPostRedisplay();
 }
@@ -238,19 +223,17 @@ void timerHandle ( int value )
 {
    animate();
    glutPostRedisplay(); 
-   glutTimerFunc ( 50, timerHandle, 0 );
-   
+   glutTimerFunc ( 50, timerHandle, 0 );  
 }
 
 void visHandle( int visible )
 {
    if (visible == GLUT_VISIBLE)
       timerHandle ( 0 );
-   else
-      ;
+   else;
 }
 
 void ending(){
-  delete l0;
-  delete l1;
+   delete l0;
+   delete l1;
 }
