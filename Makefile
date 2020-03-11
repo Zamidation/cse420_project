@@ -3,6 +3,9 @@ LIBSDL =  -L/usr/local/lib -Wl,-rpath,/usr/local/lib -lSDL  -lSDL_image -L./
 one: execute
 	echo done
 
+earth: execute
+	./earth
+
 execute: objects
 	g++ -o earth earth.o main2.o -L./ -lglut -lGLU -lGL
 
