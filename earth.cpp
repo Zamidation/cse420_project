@@ -23,9 +23,7 @@ float c = 8;
 
 void light_switch0();
 void light_switch1();
-
-
-
+void light_switch2();
 
 void diffuse_color(GLfloat d[4], int p = 10)
 {
@@ -91,6 +89,7 @@ void init(void)
    // glEnable(GL_LIGHT0);
    light_switch1();
    // glEnable(GL_LIGHT1);
+   light_switch2();
 
    glColorMaterial(GL_FRONT, GL_DIFFUSE);
    glEnable(GL_COLOR_MATERIAL);
@@ -172,6 +171,7 @@ void planet(int model_number, float spin_rate, int p = 10)
 
 bool* l0 = new bool(0);
 bool* l1 = new bool(0);
+bool* l2 = new bool(0);
 
 void light_switch0()
 {
@@ -199,6 +199,20 @@ void light_switch1()
       *l1 = true;
       glEnable(GL_LIGHT1);
    }
+};
+
+void light_switch2()
+{
+   if(*l2)
+   {
+      *l2 = false;
+      glDisable(GL_LIGHT2);
+   }
+   else
+   {
+      *l2 = true;
+      glEnable(GL_LIGHT2);
+   }     
 };
 
 static bool onetime = false;
@@ -352,6 +366,9 @@ void keyboard ( unsigned char key, int mousex, int mousey )
          break;
       case '1':
          light_switch1();
+         break;
+      case '2':
+         light_switch2();
          break;
       case 'n':
       case 'N':
