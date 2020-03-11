@@ -5,10 +5,13 @@
 #include <math.h>
 #include "SDL2/SDL.h"
 #include <math.h>
+#include <iostream>
+
+//using namespace std;
 
 #define PI 3.1416926
 
-#define X .525731112119133606 
+#define X .525731112119133606
 #define Z .850650808352039932
 
 float ay = 0;   // rotation angle about y-axis
@@ -21,20 +24,38 @@ float c = 8;
 void light_switch0();
 void light_switch1();
 
+
+
+
+void diffuse_color(GLfloat d[4], int p = 10)
+{
+  glMaterialfv(GL_FRONT, GL_DIFFUSE, d);
+}
+
+void diffuse_color(float x = 1.0, float y = 1.0, float z = 0.0, float a = 0.5, int p = 10)
+{
+  //
+  GLfloat diffuseMaterial[4] = { x, y, z, a };
+  diffuse_color(diffuseMaterial, p);
+  // glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+  // glMaterialf(GL_FRONT, GL_SHININESS, 175.0);
+}
+
 void init(void)
 {
 
    // GLfloat mat_specular[] = {1.0,1.0,1.0,1.0 };
 
    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 0.5 };
-   GLfloat light[] = { .5, .5, .5};
-   GLfloat light1[] = { .25, .25, .25 };
+   GLfloat light[] = { 1.0, 1.0, 1.0};//{ .5, .5, .5};
+   GLfloat light1[] = { 0.5, 0.5, 0.5};//{ .25, .25, .25 };
    GLfloat lmodel_ambient[] = { 0.5, 0.5, 0.5, 0.5 };
    GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };
    GLfloat light_position1[] = { -1.0, -1.0, -1.0, 0.0 };
+   GLfloat light_position2[] = { 0.0, 0.0, 0.0, 1.0 };
    // GLfloat diffuseMaterial[4] = { 1, 1, 1, 1.0 };
-   GLfloat diffuseMaterial[4] = { 1, 1, 0, 0.5 };
-                                                                         
+   GLfloat diffuseMaterial[4] = { 0.9, 0.9, 0.0, 0.5 };
+
    // glClearColor (0.5, 0.5, 0.2, 0.0);
 
    glClearColor(0.0,0.0,0.0,0.0); // background color
@@ -57,6 +78,11 @@ void init(void)
    glLightfv(GL_LIGHT1, GL_AMBIENT, light1 );
    glLightfv(GL_LIGHT1, GL_SPECULAR, light1 );
 
+   glLightfv(GL_LIGHT2, GL_POSITION, light_position2);
+   glLightfv(GL_LIGHT2, GL_DIFFUSE, light );
+   glLightfv(GL_LIGHT2, GL_AMBIENT, light );
+   glLightfv(GL_LIGHT2, GL_SPECULAR, light );
+
    // glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
 
    glEnable(GL_LIGHTING);
@@ -65,7 +91,7 @@ void init(void)
    // glEnable(GL_LIGHT0);
    light_switch1();
    // glEnable(GL_LIGHT1);
-                                                                                
+
    glColorMaterial(GL_FRONT, GL_DIFFUSE);
    glEnable(GL_COLOR_MATERIAL);
    glMatrixMode( GL_PROJECTION );
@@ -83,20 +109,11 @@ void model(int model_number, int p = 10)
    {
       case 0:
          glutWireCube(1.0);
-         glutSolidCone(1,1,10,10);
-         break; 
+         // glutSolidCone(1,1,10,10);
+         break;
       case 1:
 
-
          glutSolidSphere(0.5,100,50);
-         if (p == count){
-            glPushMatrix();
-            glTranslatef(0, 2.5 + .5*sin(ay) ,0);
-            glScalef(.25,.50,.25);
-            glRotatef(90,1,0,0);
-            glutSolidCone(1,2,10,10);
-            glPopMatrix();
-         }
          break;
       case 2:
          glBegin(GL_POLYGON);
@@ -106,10 +123,19 @@ void model(int model_number, int p = 10)
             glVertex2f(1,1);
             glVertex2f(0,1);
          glEnd();
-      
-      
+
       default:
          break;
+   }
+   if (p == count){
+      glDisable(GL_LIGHT1);
+      glPushMatrix();
+      glTranslatef(0, 2.5 + .5*sin(ay) ,0);
+      glScalef(.25,.50,.25);
+      glRotatef(90,1,0,0);
+      glutSolidCone(1,2,10,10);
+      glPopMatrix();
+      glEnable(GL_LIGHT1);
    }
 }
 
@@ -119,15 +145,14 @@ void CounterN()
 }
 void CounterB()
 {
-   if (count == 0)
-      count = 8;
-   count--;
+   if (count == 0) count = 8;
+   else count--;
 }
 
 
 
 void planet(int model_number, float spin_rate, int p = 10)
-{  
+{
    // glPushMatrix();
    glRotatef(ay* spin_rate,0,1,0);
    model(model_number, p);
@@ -166,36 +191,40 @@ void light_switch1()
    }
 };
 
+static bool onetime = false;
+
+// GLfloat m
 
 void display(void)
 {
    // gluPerspective()
    // glMatrixMode(GL_PROJECTION); // position and aim the camera
    glMatrixMode(GL_MODELVIEW);
-   
+
    int p = 0;
-   
+
    // glFrustum ()
-   
-   // glFrustum (-10.0, 10.0, -10.0, -1.0, 10, 50.0);   
+
+   // glFrustum (-10.0, 10.0, -10.0, -1.0, 10, 50.0);
    // glTranslatef(0.0,1.0,-10.0);
    glLoadIdentity();
-   
+
    // gluLookAt(a, b, c, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
    gluLookAt(a, b, c, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-   
+
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  
-   // glColor3f ( 1, 0, 0 );	//This would have no effect 
+
+   // glColor3f ( 1, 0, 0 );	//This would have no effect
    glEnable( GL_CULL_FACE );
    glCullFace ( GL_BACK );
-  
+
    int models = 1;
    if ( translate )
    {
       models = 0;
    }
-   
+
+   diffuse_color(1.0, 0.0, 1.0, 0.5, 0);
 
    glRotatef ( ay, 0, 1, 0 ); // spin of sun
 
@@ -203,13 +232,31 @@ void display(void)
    planet(models, 20, p);   // sun
    glPopMatrix();
 
+//-------------------------------------
+if(onetime == false){
+  onetime = true;
+  float m[4][4];
+  glGetFloatv(GL_PROJECTION, &m[0][0]);
+  for(int i = 0; i < 4; i++){
+    for(int j = 0; j < 4; j++){
+      std::cout << m[i][j] << "\t";
+    }
+    std::cout << std::endl;
+  }
+}
+//-------------------------------------
+
+   glFlush();
+
+   diffuse_color();
+
    p++;
 
    glPushMatrix();   // another planet
    glRotatef(ay, 0,1,0);
    glTranslatef(5,0,0);
    glScalef(.25,.25,.25);
-   planet(models, 10, p);  
+   planet(models, 10, p);
    glPopMatrix();
 
    p++;
@@ -223,14 +270,18 @@ void display(void)
    model(2);
    glPopMatrix();
 
+   diffuse_color(0, 0.7, 0.0, 0.0, 0.5);
+
    planet(models, 18, p);    // earth
 
+   diffuse_color();
+
    p++;
-   
+
    glTranslatef (2, 0, 0 );
    glScalef(.25,.25,.25);
-   
-   
+
+
 
    planet(models, 10); // moon
 
@@ -244,7 +295,7 @@ void display(void)
    //p++;
 
    glFlush();
-   //   SDL_Delay ( 500 ); 
+   //   SDL_Delay ( 500 );
 }
 
 void SpecialInput(int key, int x, int y)
@@ -276,7 +327,7 @@ void keyboard ( unsigned char key, int mousex, int mousey )
          exit ( -1 );
       case 't':
          if ( translate )
-            translate = false;        
+            translate = false;
          else
             translate = true;
          break;
@@ -316,8 +367,8 @@ void animate()
 void timerHandle ( int value )
 {
    animate();
-   glutPostRedisplay(); 
-   glutTimerFunc ( 50, timerHandle, 0 );  
+   glutPostRedisplay();
+   glutTimerFunc ( 50, timerHandle, 0 );
 }
 
 void visHandle( int visible )
