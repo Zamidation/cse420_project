@@ -102,6 +102,15 @@ void init(void)
    // glOrtho(5.0, 5.0, 5.0, 5.0, 0.1, 100 );
 }
 
+void personModel()
+{
+  glPushMatrix();
+  glScalef(1.0, 0.5, 1.0);
+  glutSolidCube(1);
+  //CONTINUE HERE
+  glPopMatrix();
+}
+
 static int count = 0;
 void model(int model_number, int p = 10)
 {
@@ -145,8 +154,9 @@ void CounterN()
 }
 void CounterB()
 {
-   if (count == 0) count = 8;
-   else count--;
+   if (count == 0)
+      count = 9;
+   count--;
 }
 
 
