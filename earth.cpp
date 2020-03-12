@@ -24,10 +24,6 @@ float a = 0;
 float b = 0;
 float c = 0;
 
-void light_switch0();
-void light_switch1();
-void light_switch2();
-
 void diffuse_color(GLfloat d[4], int p = 10)
 {
   glMaterialfv(GL_FRONT, GL_DIFFUSE, d);
@@ -90,11 +86,11 @@ void init(void)
 
    glEnable(GL_LIGHTING);
 
-   light_switch0();
+   light_switch(0);
    // glEnable(GL_LIGHT0);
-   light_switch1();
+   light_switch(1);
    // glEnable(GL_LIGHT1);
-   light_switch2();
+   light_switch(2);
 
    glColorMaterial(GL_FRONT, GL_DIFFUSE);
    glEnable(GL_COLOR_MATERIAL);
@@ -174,24 +170,6 @@ void planet(int model_number, float spin_rate, int p = 10)
    // glPopMatrix();
 }
 
-bool* l0 = new bool(0);
-bool* l1 = new bool(0);
-bool* l2 = new bool(0);
-
-void light_switch0()
-{
-   if(*l0)
-   {
-      *l0 = false;
-      glDisable(GL_LIGHT0);
-   }
-   else
-   {
-      *l0 = true;
-      glEnable(GL_LIGHT0);
-   }
-};
-
 int lss[] = { GL_LIGHT0, GL_LIGHT1, GL_LIGHT2, GL_LIGHT3, GL_LIGHT4, GL_LIGHT5, GL_LIGHT6, GL_LIGHT7};
 void light_switch(int n)
 {
@@ -206,36 +184,6 @@ void light_switch(int n)
       glEnable(lss[n]);
    }
 }
-
-void light_switch1()
-{
-   if(*l1)
-   {
-      *l1 = false;
-      glDisable(GL_LIGHT1);
-   }
-   else
-   {
-      *l1 = true;
-      glEnable(GL_LIGHT1);
-   }
-};
-
-void light_switch2()
-{
-   if(*l2)
-   {
-      *l2 = false;
-      glDisable(GL_LIGHT2);
-   }
-   else
-   {
-      *l2 = true;
-      glEnable(GL_LIGHT2);
-   }     
-};
-
-
 
 static bool onetime = false;
 
@@ -253,7 +201,7 @@ void display(void)
    // glFrustum ()
 
    // glFrustum (-1.0, 1.0, -1.0, -1.0, 1, 50.0);
-   
+
    // glTranslatef(0.0,1.0,-10.0);
    glLoadIdentity();
 
@@ -265,13 +213,13 @@ void display(void)
    //    u = false;
    //    d = false;
    //    l = false;
-   //    r = false;      
+   //    r = false;
    // }
 
    glTranslatef(a, b,-10+c);
-   
+
    glRotatef(45,1,0,0);
-   
+
    // gluLookAt(a, b, c, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
    // gluLookAt(a, b, c, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
@@ -289,7 +237,7 @@ void display(void)
 
    // diffuse_color(1.0, 0.0, 1.0, 0.5, 0);
 
-   
+
 
    glRotatef ( ay, 0, 1, 0 ); // spin of sun
 
