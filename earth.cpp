@@ -24,6 +24,8 @@ float a = 0;
 float b = 0;
 float c = 0;
 
+void light_switch(int n);
+
 void diffuse_color(GLfloat d[4], int p = 10)
 {
   glMaterialfv(GL_FRONT, GL_DIFFUSE, d);
@@ -99,16 +101,17 @@ void init(void)
    // glOrtho(-2.0, 2.0, -2.0, 2.0, 0.1, 100 );
 
    glOrtho(-5.0, 15.0, -5.0, 5.0, .1, 50);
-   // glOrtho(5.0, 5.0, 5.0, 5.0, 0.1, 100 );
+   // glOrtho(-1.0, 1.0, -1.0, 1.0, 0.1, 50 );
 }
 
 void personModel()
 {
-  glTranslatef (-1.0, 0.0, 0.0);
-  glRotatef(0, 1, 0, 0);
-  glTranslatef (-1.0, 0.0, 0.0);
+  // glTranslatef (1.0, 0.0, 0.0);
+  // glRotatef(0, 1, 0, 0);
+  // glTranslatef (-1.0, 0.0, 0.0);
   glPushMatrix();
-  glScalef(1.0, 0.5, 1.0);
+  glTranslatef (0.0, 0.0, -3.0);
+  glScalef(0.5, 1.0, 1.0);
   glutSolidCube(1);
   //CONTINUE HERE
   glPopMatrix();
@@ -174,16 +177,17 @@ void planet(int model_number, float spin_rate, int p = 10)
 }
 
 int lss[] = { GL_LIGHT0, GL_LIGHT1, GL_LIGHT2, GL_LIGHT3, GL_LIGHT4, GL_LIGHT5, GL_LIGHT6, GL_LIGHT7};
+bool lsb[] = { false, false, false, false, false, false, false, false };
 void light_switch(int n)
 {
-   if(*l1)
+   if(lsb[n] == true)
    {
-      *l1 = false;
+      lsb[n] = false;
       glDisable(lss[n]);
    }
    else
    {
-      *l1 = true;
+      lsb[n] = true;
       glEnable(lss[n]);
    }
 }
@@ -207,8 +211,6 @@ void display(void)
 
    // glTranslatef(0.0,1.0,-10.0);
    glLoadIdentity();
-   personModel();
-   return;
 
    gluPerspective(45,2, .01, 50);
 
@@ -222,6 +224,10 @@ void display(void)
    // }
 
    glTranslatef(a, b,-10+c);
+
+   personModel();
+   glFlush();
+   return;
 
    glRotatef(45,1,0,0);
 
