@@ -110,9 +110,19 @@ void personModel()
   // glRotatef(0, 1, 0, 0);
   // glTranslatef (-1.0, 0.0, 0.0);
   glPushMatrix();
-  glTranslatef (0.0, 0.0, -3.0);
-  glScalef(0.5, 1.0, 1.0);
-  glutSolidCube(1);
+  glTranslatef (0.0, 0.0, 2.0);//position (center) body
+  glPushMatrix();//head
+  // glPushMatrix();//left arm
+  // glPushMatrix();//right arm
+  // glPushMatrix();//left leg
+  // glPushMatrix();//right leg
+  glScalef(0.5, 1.5, 1.0);
+  glutWireCube(1);
+  glPopMatrix();
+  glTranslatef(0.0, 1.0, 0.0);
+  glScalef(0.5,0.5,0.5);
+  glutWireCube(1);
+
   //CONTINUE HERE
   glPopMatrix();
 }
@@ -225,16 +235,16 @@ void display(void)
 
    glTranslatef(a, b,-10+c);
 
-   personModel();
-   glFlush();
-   return;
-
    glRotatef(45,1,0,0);
 
    // gluLookAt(a, b, c, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
    // gluLookAt(a, b, c, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+   personModel();
+   glFlush();
+   return;
 
    // glColor3f ( 1, 0, 0 );	//This would have no effect
    glEnable( GL_CULL_FACE );
