@@ -177,12 +177,15 @@ void CounterB()
 
 float position[4] = {0,0,0,1};
 
-void planet(int model_number, float spin_rate, int p = 10)
+float year_data[10] =   {0, 87.97/365, 224.7/365, 365/365, 1.88, 11.86  , 29.46  , 84.01  , 164.79 };
+float day_data[10] =    {0, 58.6     , 243      , 1      , 1.03, 0.41   , 0.45   , 0.72   , 0.67   };
+
+void planet(int model_number, float day_revolution, int p = 9)
 {
    // glPushMatrix();
-   glRotatef(ay* spin_rate,0,1,0);
+   glRotatef(ay * day_revolution,0,1,0);
    model(model_number, p);
-   glRotatef(ay * spin_rate,0,1,0);
+   
    // glPopMatrix();
 }
 
@@ -204,6 +207,8 @@ void light_switch(int n)
 
 static bool onetime = false;
 
+float distance = 5;
+
 // GLfloat m
 static bool u, d, l, r = false;
 // static bool u = false, d = false, l = false, r = false;
@@ -222,7 +227,7 @@ void display(void)
    // glTranslatef(0.0,1.0,-10.0);
    glLoadIdentity();
 
-   gluPerspective(45,2, .01, 50);
+   gluPerspective(45,2, .01, 550);
 
    // if(u == false || d == false || l == false || r == false){
    //    t = 0.0;
@@ -233,7 +238,7 @@ void display(void)
    //    r = false;
    // }
 
-   glTranslatef(a, b,-10+c);
+   glTranslatef(a, b,-20+c);
 
    glRotatef(45,1,0,0);
 
@@ -242,9 +247,9 @@ void display(void)
 
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-   personModel();
-   glFlush();
-   return;
+   // personModel();
+   // glFlush();
+   // return;
 
    // glColor3f ( 1, 0, 0 );	//This would have no effect
    glEnable( GL_CULL_FACE );
@@ -258,12 +263,53 @@ void display(void)
 
    // diffuse_color(1.0, 0.0, 1.0, 0.5, 0);
 
-
-
-   glRotatef ( ay, 0, 1, 0 ); // spin of sun
+   // glRotatef ( ay, 0, 1, 0 ); // spin of sun
 
    glPushMatrix();
-   planet(models, 20, p);   // sun
+
+   glScalef(10, 10, 10);
+
+   glPushMatrix();   // Neptune Orbit
+   glRotatef(90,1,0,0);
+   glutSolidTorus(.01,17.5,100,100);
+   glPopMatrix();
+
+   glPushMatrix();   // Uranus Orbit
+   glRotatef(90,1,0,0);
+   glutSolidTorus(.01,15,100,100);
+   glPopMatrix();
+
+   glPushMatrix();   // Saturn Orbit
+   glRotatef(90,1,0,0);
+   glutSolidTorus(.01,12.5,100,100);
+   glPopMatrix();
+
+   glPushMatrix();   // Jupiter orbit
+   glRotatef(90,1,0,0);
+   glutSolidTorus(.01,10,100,100);
+   glPopMatrix();
+
+   glPushMatrix();   // Mars orbit
+   glRotatef(90,1,0,0);
+   glutSolidTorus(.005,4,100,100);
+   glPopMatrix();
+
+   glPushMatrix();   // Earth orbit
+   glRotatef(90,1,0,0);
+   glutSolidTorus(.005,3,100,100);
+   glPopMatrix();
+
+   glPushMatrix();   // Venus orbit
+   glRotatef(90,1,0,0);
+   glutSolidTorus(.005,2,100,100);
+   glPopMatrix();
+
+   glPushMatrix();   // Mercury orbit
+   glRotatef(90,1,0,0);
+   glutSolidTorus(.005,1,100,100);
+   glPopMatrix();
+
+   planet(models, day_data[9-p], p);   // sun
    glPopMatrix();
 
 //-------------------------------------
@@ -287,50 +333,47 @@ if(onetime == false){
    p++;
 
    glPushMatrix();   // Mercury
-   glRotatef(ay, 0,1,0);
-   glTranslatef(2,0,0);
-   glScalef(.25,.25,.25);
-   planet(models, 10, p);
+   // glRotatef(ay, 0,1,0);
+   glTranslatef(2 * distance,0,0);
+   glScalef(.38,.38,.38);
+   planet(models, day_data[9-p], p);
    glPopMatrix();
 
 
    p++;
 
    glPushMatrix();   // Venus
-   glRotatef(ay, 0,1,0);
-   glTranslatef(4,0,0);
-   glScalef(.25,.25,.25);
-   planet(models, 10, p);
+   glRotatef(ay * year_data[9-p], 0,1,0);
+   glTranslatef(4 * distance,0,0);
+   glScalef(.95, .95, .95);
+   planet(models, day_data[9-p], p);
    glPopMatrix();
 
    p++;
 
 
-   glPushMatrix;
-   glTranslatef ( 6, 0, 0 );
-   glScalef(.5,.5,.5);
-
    glPushMatrix();
-   glRotatef(10*ay,1,0,0);
-   glRotatef(-ay,0,1,0);
-   model(2);
-   glPopMatrix();
+
+   glRotatef(ay* year_data[9-p], 0,1,0);
+
+   glTranslatef ( 6 * distance, 0, 0 );
+   // glScalef(.5,.5,.5);
+
+   // glPushMatrix();
+   // glRotatef(10*ay,1,0,0);
+   // glRotatef(-ay,0,1,0);
+   // model(2);
+   // glPopMatrix();
 
    // diffuse_color(0, 0.7, 0.0, 0.0, 0.5);
 
-   planet(models, 18, p);    // earth
-   glPopMatrix;
-
-   // diffuse_color();
-
-   p++;
+   planet(models, day_data[9-p], p);    // earth
 
    glTranslatef (2, 0, 0 );
-   glScalef(.25,.25,.25);
+   // glScalef(.25,.25,.25);
+   glScalef(.5,.5,.5);
 
-
-
-   planet(models, 10); // moon
+   planet(models, 1); // moon
 
    //p++;
 
@@ -339,7 +382,73 @@ if(onetime == false){
 
    planet(models, 10);  // moon of moon
 
+   glPopMatrix();
+   glPopMatrix();
+
+   // diffuse_color();
+
+   p++;
+
    //p++;
+
+
+
+   glPushMatrix();   // Mars
+   // glRotatef(ay, 0,1,0);
+   glTranslatef(8 * distance,0,0);
+   glScalef(.53,.53,.53);
+   planet(models, day_data[9-p], p);
+   glPopMatrix();
+
+   p++;
+
+
+   glPushMatrix();   // Jupiter
+   // glRotatef(ay, 0,1,0);
+   glTranslatef(20 * distance,0,0);
+   glScalef(11.2,11.2,11.2);
+   planet(models, day_data[9-p], p);
+   glPopMatrix();
+
+   p++;
+
+
+   glPushMatrix();   // Saturn
+   // glRotatef(ay, 0,1,0);
+   glTranslatef(25 * distance,0,0);
+   glScalef(9.45,9.45,9.45);
+
+   glPushMatrix();
+   glScalef(1,.01,1);
+   glRotatef(90, 1,0,0);
+   glutSolidTorus(.175,1,50,50);
+   glPopMatrix();
+
+   planet(models, day_data[9-p], p);
+   glPopMatrix();
+
+   p++;
+
+
+   glPushMatrix();   // Uranus
+   // glRotatef(ay, 0,1,0);
+   glTranslatef(30 * distance,0,0);
+   glScalef(4.0,4.0,4.0);
+   planet(models, day_data[9-p], p);
+   glPopMatrix();
+
+   p++;
+
+
+   glPushMatrix();   // Neptune
+   // glRotatef(ay, 0,1,0);
+   glTranslatef(35 * distance,0,0);
+   glScalef(3.88,3.88,3.88);
+   planet(models, day_data[9-p], p);
+   glPopMatrix();
+
+   p++;
+
 
    glFlush();
    //   SDL_Delay ( 500 );
