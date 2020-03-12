@@ -3,20 +3,20 @@ LIBSDL =  -L/usr/local/lib -Wl,-rpath,/usr/local/lib -lSDL  -lSDL_image -L./
 one: execute
 	echo done
 
-earth: execute
-	./earth
+solar_system: execute
+	./solar_system
 
 execute: objects
-	g++ -o earth earth.o main2.o -L./ -lglut -lGLU -lGL
+	g++ -o solar_system solar_system.o main.o -L./ -lglut -lGLU -lGL
 
-objects: earth.o main2.o
+objects: solar_system.o main.o
 	echo objects done
 
-earth.o: earth.cpp
-	g++ -c earth.cpp #-I/usr/X11R/include
+earth.o: solar_system.cpp
+	g++ -c solar_system.cpp #-I/usr/X11R/include
 
-main2.o: main2.cpp
-	g++ -c main2.cpp
+main.o: main.cpp
+	g++ -c main.cpp
 
 clean:
-	rm *.o earth
+	rm *.o solar_system
