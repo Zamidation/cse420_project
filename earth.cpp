@@ -6,6 +6,7 @@
 #include "SDL2/SDL.h"
 #include <math.h>
 #include <iostream>
+#include <map>
 
 //using namespace std;
 
@@ -140,14 +141,14 @@ void model(int model_number, int p = 10)
          break;
    }
    if (p == count){
-      glDisable(GL_LIGHT1);
+      // glDisable(GL_LIGHT1);
       glPushMatrix();
       glTranslatef(0, 2.5 + .5*sin(ay) ,0);
       glScalef(.25,.50,.25);
       glRotatef(90,1,0,0);
       glutSolidCone(1,2,10,10);
       glPopMatrix();
-      glEnable(GL_LIGHT1);
+      // glEnable(GL_LIGHT1);
    }
 }
 
@@ -191,6 +192,21 @@ void light_switch0()
    }
 };
 
+int lss[] = { GL_LIGHT0, GL_LIGHT1, GL_LIGHT2, GL_LIGHT3, GL_LIGHT4, GL_LIGHT5, GL_LIGHT6, GL_LIGHT7};
+void light_switch(int n)
+{
+   if(*l1)
+   {
+      *l1 = false;
+      glDisable(lss[n]);
+   }
+   else
+   {
+      *l1 = true;
+      glEnable(lss[n]);
+   }
+}
+
 void light_switch1()
 {
    if(*l1)
@@ -218,6 +234,8 @@ void light_switch2()
       glEnable(GL_LIGHT2);
    }     
 };
+
+
 
 static bool onetime = false;
 
@@ -269,7 +287,9 @@ void display(void)
       models = 0;
    }
 
-   diffuse_color(1.0, 0.0, 1.0, 0.5, 0);
+   // diffuse_color(1.0, 0.0, 1.0, 0.5, 0);
+
+   
 
    glRotatef ( ay, 0, 1, 0 ); // spin of sun
 
@@ -293,20 +313,32 @@ if(onetime == false){
 
    glFlush();
 
-   diffuse_color();
+   // diffuse_color();
 
    p++;
 
-   glPushMatrix();   // another planet
+   glPushMatrix();   // Mercury
    glRotatef(ay, 0,1,0);
-   glTranslatef(5,0,0);
+   glTranslatef(2,0,0);
+   glScalef(.25,.25,.25);
+   planet(models, 10, p);
+   glPopMatrix();
+
+
+   p++;
+
+   glPushMatrix();   // Venus
+   glRotatef(ay, 0,1,0);
+   glTranslatef(4,0,0);
    glScalef(.25,.25,.25);
    planet(models, 10, p);
    glPopMatrix();
 
    p++;
 
-   glTranslatef ( 3, 0, 0 );
+
+   glPushMatrix;
+   glTranslatef ( 6, 0, 0 );
    glScalef(.5,.5,.5);
 
    glPushMatrix();
@@ -315,11 +347,12 @@ if(onetime == false){
    model(2);
    glPopMatrix();
 
-   diffuse_color(0, 0.7, 0.0, 0.0, 0.5);
+   // diffuse_color(0, 0.7, 0.0, 0.0, 0.5);
 
    planet(models, 18, p);    // earth
+   glPopMatrix;
 
-   diffuse_color();
+   // diffuse_color();
 
    p++;
 
@@ -353,7 +386,7 @@ void Smooth_Trantitions(float &number)
 
 void KeyUp(unsigned char key, int x, int y)
 {
-   keys.keyUp(key);
+   // keys.keyUp(key);
    if (key == GLUT_KEY_UP)
       std::cout << "I am unclicked\n";
 }
@@ -410,14 +443,32 @@ void keyboard ( unsigned char key, int mousex, int mousey )
          b += t;
          break;
       case '0':
-         light_switch0();
+         light_switch(0);
          break;
       case '1':
-         light_switch1();
+         light_switch(1);
          break;
       case '2':
-         light_switch2();
+         light_switch(2);
          break;
+      case '3':
+         light_switch(3);
+         break;
+      case '4':
+         light_switch(4);
+         break;
+      case '5':
+         light_switch(5);
+         break;
+      case '6':
+         light_switch(6);
+         break;
+      case '7':
+         light_switch(7);
+         break;
+      // case '2':
+      //    light_switch2();
+      //    break;
       case 'n':
       case 'N':
          CounterN();
