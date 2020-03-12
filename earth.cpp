@@ -104,6 +104,9 @@ void init(void)
 
 void personModel()
 {
+  glTranslatef (-1.0, 0.0, 0.0);
+  glRotatef(0, 1, 0, 0);
+  glTranslatef (-1.0, 0.0, 0.0);
   glPushMatrix();
   glScalef(1.0, 0.5, 1.0);
   glutSolidCube(1);
@@ -204,6 +207,8 @@ void display(void)
 
    // glTranslatef(0.0,1.0,-10.0);
    glLoadIdentity();
+   personModel();
+   return;
 
    gluPerspective(45,2, .01, 50);
 
@@ -455,6 +460,5 @@ void visHandle( int visible )
 }
 
 void ending(){
-   delete l0;
-   delete l1;
+   //
 }
