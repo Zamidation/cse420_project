@@ -14,12 +14,14 @@
 #define X .525731112119133606
 #define Z .850650808352039932
 
+
+float t = 1;
 float ay = 0;   // rotation angle about y-axis
 bool translate = false;
 
-float a = 8;
-float b = 8;
-float c = 8;
+float a = 0;
+float b = 0;
+float c = 0;
 
 void light_switch0();
 void light_switch1();
@@ -160,7 +162,7 @@ void CounterB()
    count--;
 }
 
-
+float position[4] = {0,0,0,1};
 
 void planet(int model_number, float spin_rate, int p = 10)
 {
@@ -220,23 +222,40 @@ void light_switch2()
 static bool onetime = false;
 
 // GLfloat m
-
+static bool u, d, l, r = false;
+// static bool u = false, d = false, l = false, r = false;
 void display(void)
 {
    // gluPerspective()
-   // glMatrixMode(GL_PROJECTION); // position and aim the camera
-   glMatrixMode(GL_MODELVIEW);
+   glMatrixMode(GL_PROJECTION); // position and aim the camera
+   // glMatrixMode(GL_MODELVIEW);
 
    int p = 0;
 
    // glFrustum ()
 
-   // glFrustum (-10.0, 10.0, -10.0, -1.0, 10, 50.0);
+   // glFrustum (-1.0, 1.0, -1.0, -1.0, 1, 50.0);
+   
    // glTranslatef(0.0,1.0,-10.0);
    glLoadIdentity();
 
+   gluPerspective(45,2, .01, 50);
+
+   // if(u == false || d == false || l == false || r == false){
+   //    t = 0.0;
+   // }else{
+   //    u = false;
+   //    d = false;
+   //    l = false;
+   //    r = false;      
+   // }
+
+   glTranslatef(a, b,-10+c);
+   
+   glRotatef(45,1,0,0);
+   
    // gluLookAt(a, b, c, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-   gluLookAt(a, b, c, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+   // gluLookAt(a, b, c, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -324,23 +343,48 @@ if(onetime == false){
    //   SDL_Delay ( 500 );
 }
 
+void Smooth_Trantitions(float &number)
+{
+   if (number < 1)
+      number += .05;
+   else
+      number = 1;
+}
+
+void KeyUp(unsigned char key, int x, int y)
+{
+   keys.keyUp(key);
+   if (key == GLUT_KEY_UP)
+      std::cout << "I am unclicked\n";
+}
+
 void SpecialInput(int key, int x, int y)
 {
    switch ( key )
    {
       case GLUT_KEY_UP:
-         a += .1;
+         Smooth_Trantitions(t);
+         c += t;
+         u = true;
+         std::cout << t << std::endl;
          break;
       case GLUT_KEY_DOWN:
-         a +- .1;
+         Smooth_Trantitions(t);
+         c -= t;
+         d = true;
          break;
       case GLUT_KEY_RIGHT:
-         c += .1;
+         Smooth_Trantitions(t);
+         a -= t;
+         r = true;
          break;
       case GLUT_KEY_LEFT:
-         c -= .1;
+         Smooth_Trantitions(t);
+         a += t;
+         l = true;
          break;
       default:
+         std::cout << "no special key\n";
          break;
    }
    glutPostRedisplay();
@@ -358,10 +402,12 @@ void keyboard ( unsigned char key, int mousex, int mousey )
             translate = true;
          break;
       case 'p':
-         a += 1;
+         Smooth_Trantitions(t);
+         b -= t;
          break;
       case 'l':
-         a -= 1;
+         Smooth_Trantitions(t);
+         b += t;
          break;
       case '0':
          light_switch0();
@@ -386,10 +432,12 @@ void keyboard ( unsigned char key, int mousex, int mousey )
 
 void animate()
 {
-  if ( ay > 360 )
-    ay = 0;
-  else
-    ay += .25;
+   if (t > 1)
+      t = 1;
+   if ( ay > 360 )
+      ay = 0;
+   else
+      ay += .25;
   glutPostRedisplay ();
 }
 

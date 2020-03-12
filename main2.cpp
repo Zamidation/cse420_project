@@ -5,6 +5,8 @@
 void display( void );
 void init( void );
 void keyboard ( unsigned char key, int mousex, int mousey );
+void SpecialInput(int key, int x, int y);
+void KeyUp(unsigned char key, int x, int y);
 void visHandle( int visible );
 void ending();
 
@@ -23,7 +25,8 @@ int main( int argc, char *argv[] )
 
   glutDisplayFunc(display);
   glutKeyboardFunc ( keyboard );
-  
+  glutSpecialFunc (SpecialInput);
+  // glutSpecialUpFunc (KeyUp);
   
   glutVisibilityFunc( visHandle );
   glutMainLoop();
