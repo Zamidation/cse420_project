@@ -104,27 +104,125 @@ void init(void)
    // glOrtho(-1.0, 1.0, -1.0, 1.0, 0.1, 50 );
 }
 
+
+float larm = 0, rarm = 0, lleg = -30, rleg = -30,
+      udneck = 0, lrneck = 0;
+int tweenl = 9, tweenr = -9, tweenll = 9, tweenlr = -9,
+    tweennlr = 9, tweennud = 9;
+
 void personModel()
 {
   // glTranslatef (1.0, 0.0, 0.0);
   // glRotatef(0, 1, 0, 0);
   // glTranslatef (-1.0, 0.0, 0.0);
-  glPushMatrix();
-  glTranslatef (0.0, 0.0, 2.0);//position (center) body
-  glPushMatrix();//head
-  // glPushMatrix();//left arm
-  // glPushMatrix();//right arm
-  // glPushMatrix();//left leg
-  // glPushMatrix();//right leg
+  glPushMatrix();//1
+  // glTranslatef (0.0, 0.0, 2.0);//position (center) body
+    glPushMatrix();//2head
+    glPushMatrix();//3left arm
+    glPushMatrix();//4right arm
+    glPushMatrix();//5left leg
+    glPushMatrix();//6right leg
   glScalef(0.5, 1.5, 1.0);
-  glutWireCube(1);
-  glPopMatrix();
-  glTranslatef(0.0, 1.0, 0.0);
+  glutSolidCube(1);              //body
+    glPopMatrix();//6
+  glTranslatef(0.0, 0.8, 0.0);//neck
+  if(lrneck > 45 || lrneck < -45)
+    tweennlr = -tweennlr;
+  lrneck += tweennlr;
+  glRotatef(lrneck, 0, 1, 0);
+    glPushMatrix();
+  glScalef(0.4,0.1,0.4);
+  glutSolidCube(1);            //neck
+    glPopMatrix();
+  glTranslatef(-0.05, 0.3, 0.0);
+  glTranslatef(0.25, -0.25, 0.0);
+  if(udneck > 0 || udneck < -22.5)
+    tweennud = -tweennud;
+  udneck += tweennud;
+  glRotatef(udneck, 0, 0, 1);
+  glTranslatef(-0.25, 0.25, 0.0);
   glScalef(0.5,0.5,0.5);
-  glutWireCube(1);
+  glutSolidCube(1);              //head
+
+    glPopMatrix();//5
+  // glPopMatrix();
+                              //left arm 1
+
+  glTranslatef(0.0, 0.75, 0.625);
+  if(larm > 60 || larm < -60)
+    tweenl = -tweenl;
+  larm += tweenl;
+  glRotatef(larm, 0, 0, 1);
+  glTranslatef(0.0, -0.5, 0.0);
+    glPushMatrix();//7
+  glScalef(0.25, 1.0, 0.25);
+  glutSolidCube(1);            //left arm 1
+    glPopMatrix();//7
+  glTranslatef(-0.4, -0.4, 0.0);//left arm 2
+  glScalef(1.0, 0.2, 0.2);
+  glutSolidCube(1);           //left arm 2
+
+    glPopMatrix();//4
+
+                              //right arm 1
+  glTranslatef(0.0, 0.75, -0.625);
+  if(rarm > 60 || rarm < -60)
+    tweenr = -tweenr;
+  rarm += tweenr;
+  glRotatef(rarm, 0, 0, 1);
+  glTranslatef(0.0, -0.5, 0.0);
+    glPushMatrix();//8
+  glScalef(0.25, 1.0, 0.25);
+  glutSolidCube(1);              //right arm 1
+    glPopMatrix();//8
+  glTranslatef(-0.4, -0.4, 0.0);//right arm 2
+  glScalef(1.0, 0.2, 0.2);
+  glutSolidCube(1);             //right arm 2
+
+    glPopMatrix();//3
+
+                              //left leg 1
+  glTranslatef(0.0, -0.75, -0.35);
+  if(lleg > 30 || lleg < -90)
+    tweenll = -tweenll;
+  std::cout << "before:" << lleg << std::endl;
+  lleg += tweenll;
+  std::cout << "after:" << lleg << std::endl;
+  // glRotatef(-30, 0, 0, 1);
+  glRotatef(lleg, 0, 0, 1);
+  glTranslatef(0.0, -0.5, 0.0);
+    glPushMatrix();//9
+  glScalef(0.25, 1.0, 0.25);
+  glutSolidCube(1);              //left leg 1
+    glPopMatrix();//9
+  glTranslatef(0.4, -0.4, 0.0);//left leg 2
+  glScalef(1.0, 0.2, 0.2);
+  glutSolidCube(1);             //left leg 2
+
+    glPopMatrix();//2
+
+                              //right leg 1
+  glTranslatef(0.0, -0.75, 0.35);
+  if(rleg > 30 || rleg < -90)
+    tweenlr = -tweenlr;
+  std::cout << "before:" << lleg << std::endl;
+  rleg += tweenlr;
+  std::cout << "after:" << lleg << std::endl;
+  // glRotatef(-30, 0, 0, 1);
+  glRotatef(rleg, 0, 0, 1);
+  glTranslatef(0.0, -0.5, 0.0);
+    glPushMatrix();//10
+  glScalef(0.25, 1.0, 0.25);
+  glutSolidCube(1);              //right leg 1
+    glPopMatrix();//10
+  glTranslatef(0.4, -0.4, 0.0);//right leg 2
+  glScalef(1.0, 0.2, 0.2);
+  glutSolidCube(1);             //right leg 2
+
+    glPopMatrix();//1
 
   //CONTINUE HERE
-  glPopMatrix();
+  glPopMatrix();//1
 }
 
 float scale_data[10] =  {10, .38      , .95      , 1      , .53   , 11.2      , 9.45     , 4.0       , 3.88     };
@@ -133,7 +231,7 @@ float day_data[10] =    {0 , 58.6     , 243      , 1      , 1.03  , 0.41      , 
 
 
 static int count = 0;
-void model(int model_number, int p = 9)
+void model(int model_number, int p = 10)
 {
    switch (model_number)
    {
@@ -184,12 +282,16 @@ void CounterB()
 
 float position[4] = {0,0,0,1};
 
+<<<<<<< HEAD
 void planet(int model_number, float day_revolution, int p = 9)
+=======
+void planet(int model_number, float spin_rate, int p = 10)
+>>>>>>> 074d5cf7fcb17ca45759234e9712f6707554ee43
 {
    // glPushMatrix();
-   glRotatef(ay * day_revolution,0,1,0);
+   glRotatef(ay* spin_rate,0,1,0);
    model(model_number, p);
-   
+   glRotatef(ay * spin_rate,0,1,0);
    // glPopMatrix();
 }
 
@@ -211,8 +313,6 @@ void light_switch(int n)
 
 static bool onetime = false;
 
-float distance = 5;
-
 // GLfloat m
 static bool u, d, l, r = false;
 // static bool u = false, d = false, l = false, r = false;
@@ -231,7 +331,7 @@ void display(void)
    // glTranslatef(0.0,1.0,-10.0);
    glLoadIdentity();
 
-   gluPerspective(45,2, .01, 550);
+   gluPerspective(45,2, .01, 50);
 
    // if(u == false || d == false || l == false || r == false){
    //    t = 0.0;
@@ -242,7 +342,7 @@ void display(void)
    //    r = false;
    // }
 
-   glTranslatef(a, b,-20+c);
+   glTranslatef(a, b,-10+c);
 
    glRotatef(45,1,0,0);
 
@@ -251,9 +351,9 @@ void display(void)
 
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-   // personModel();
-   // glFlush();
-   // return;
+   personModel();
+   glFlush();
+   return;
 
    // glColor3f ( 1, 0, 0 );	//This would have no effect
    glEnable( GL_CULL_FACE );
@@ -267,6 +367,7 @@ void display(void)
 
    // diffuse_color(1.0, 0.0, 1.0, 0.5, 0);
 
+<<<<<<< HEAD
    // glRotatef ( ay, 0, 1, 0 ); // spin of sun
 
    glPushMatrix();
@@ -302,18 +403,14 @@ void display(void)
    glRotatef(90,1,0,0);
    glutSolidTorus(.005,3,100,100);
    glPopMatrix();
+=======
+>>>>>>> 074d5cf7fcb17ca45759234e9712f6707554ee43
 
-   glPushMatrix();   // Venus orbit
-   glRotatef(90,1,0,0);
-   glutSolidTorus(.005,2,100,100);
-   glPopMatrix();
 
-   glPushMatrix();   // Mercury orbit
-   glRotatef(90,1,0,0);
-   glutSolidTorus(.005,1,100,100);
-   glPopMatrix();
+   glRotatef ( ay, 0, 1, 0 ); // spin of sun
 
-   planet(models, day_data[8-p], p);   // sun
+   glPushMatrix();
+   planet(models, 20, p);   // sun
    glPopMatrix();
 
 //-------------------------------------
@@ -337,47 +434,64 @@ if(onetime == false){
    p++;
 
    glPushMatrix();   // Mercury
+<<<<<<< HEAD
    glRotatef(ay * year_data[p], 0,1,0);
    glTranslatef(2 * distance,0,0);
    glScalef(scale_data[p], scale_data[p], scale_data[p]);
    planet(models, day_data[p], p);
+=======
+   glRotatef(ay, 0,1,0);
+   glTranslatef(2,0,0);
+   glScalef(.25,.25,.25);
+   planet(models, 10, p);
+>>>>>>> 074d5cf7fcb17ca45759234e9712f6707554ee43
    glPopMatrix();
 
 
    p++;
 
    glPushMatrix();   // Venus
+<<<<<<< HEAD
    glRotatef(ay * year_data[p], 0,1,0);
    glTranslatef(4 * distance,0,0);
    glScalef(scale_data[p], scale_data[p], scale_data[p]);
    planet(models, day_data[p], p);
+=======
+   glRotatef(ay, 0,1,0);
+   glTranslatef(4,0,0);
+   glScalef(.25,.25,.25);
+   planet(models, 10, p);
+>>>>>>> 074d5cf7fcb17ca45759234e9712f6707554ee43
    glPopMatrix();
 
    p++;
 
 
+   glPushMatrix;
+   glTranslatef ( 6, 0, 0 );
+   glScalef(.5,.5,.5);
+
    glPushMatrix();
-
-   glRotatef(ay* year_data[p], 0,1,0);
-
-   glTranslatef ( 6 * distance, 0, 0 );
-   // glScalef(.5,.5,.5);
-
-   // glPushMatrix();
-   // glRotatef(10*ay,1,0,0);
-   // glRotatef(-ay,0,1,0);
-   // model(2);
-   // glPopMatrix();
+   glRotatef(10*ay,1,0,0);
+   glRotatef(-ay,0,1,0);
+   model(2);
+   glPopMatrix();
 
    // diffuse_color(0, 0.7, 0.0, 0.0, 0.5);
 
-   planet(models, day_data[p], p);    // earth
+   planet(models, 18, p);    // earth
+   glPopMatrix;
+
+   // diffuse_color();
+
+   p++;
 
    glTranslatef (2, 0, 0 );
-   // glScalef(.25,.25,.25);
-   glScalef(.5,.5,.5);
+   glScalef(.25,.25,.25);
 
-   planet(models, 1); // moon
+
+
+   planet(models, 10); // moon
 
    //p++;
 
@@ -386,15 +500,9 @@ if(onetime == false){
 
    planet(models, 10);  // moon of moon
 
-   glPopMatrix();
-   glPopMatrix();
-
-   // diffuse_color();
-
-   p++;
-
    //p++;
 
+<<<<<<< HEAD
 
 
    glPushMatrix();   // Mars
@@ -454,6 +562,8 @@ if(onetime == false){
    p++;
 
 
+=======
+>>>>>>> 074d5cf7fcb17ca45759234e9712f6707554ee43
    glFlush();
    //   SDL_Delay ( 500 );
 }
@@ -472,7 +582,6 @@ void KeyUp(unsigned char key, int x, int y)
    if (key == GLUT_KEY_UP)
       std::cout << "I am unclicked\n";
 }
-
 void SpecialInput(int key, int x, int y)
 {
    switch ( key )
