@@ -1,16 +1,10 @@
 /*****************
  * Programmers: Mike Cheng-Godinez, Montana Williams
  * Date: March 12, 2020
-<<<<<<< HEAD
  * Class: CSE 420 Winter 20
  * Description: 
  * 
  * This is a model of the Solar System 
-=======
- * Description:
- *
- * This is a model of the Solar System
->>>>>>> eaa9020263313351d778f31e6f7525a12f9295f1
  * using Opengl and SDL2. This program needs to be built
  * with 'main.cpp' and 'makefile'. This models the Solar System
  * with the planets Mercury, Venus, Earth, Mars, Jupiter, Saturn,
