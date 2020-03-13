@@ -55,7 +55,7 @@ float a = 0;
 float b = 0;
 float c = 0;
 
-float distance = 5;
+float distance = 5 ;
 
 void light_switch(int n);
 void light_color(int light, GLfloat lc[3], GLfloat p[4]);
@@ -420,6 +420,8 @@ void display(void)
 
    gluPerspective(45,2, .01, 1000);
 
+   // distance += .1 * time_variable;
+
    // if(u == false || d == false || l == false || r == false){
    //    t = 0.0;
    // }else{
@@ -486,6 +488,11 @@ void display(void)
    glutSolidTorus(.005*distance/5,4*distance/5,100,100);
    glPopMatrix();
 
+   // glPushMatrix();
+   // glRotatef(time_variable, 0, 1 ,0);
+   // glutSolidTorus(1 * distance, 5 * distance, 100,100 );
+   // glPopMatrix();
+
    glPushMatrix();   // Earth orbit
    glRotatef(90,1,0,0);
    glutSolidTorus(.005*distance/5,3*distance/5,100,100);
@@ -511,7 +518,12 @@ void display(void)
    // glScalef(distance/5 * scale_data[p], distance/5 * scale_data[p], distance/5 * scale_data[p]);
    diffuse_color(0.0, 0.5, 0.7, 0.5, 0);
    light_switch(2);
+
+   glPushMatrix();
+   glScalef(distance/5, distance/5, distance/5);
    planet(models, day_data[p], p);   // sun
+   glPopMatrix();
+
    glScalef(.25,.25,.25);
    glRotatef(90, 0, 1, 0);
    model(2);
@@ -603,6 +615,16 @@ void display(void)
    glScalef(.5,.5,.5);
 
    planet(models, 1); // moon
+
+
+   glPushMatrix();
+
+   glRotatef(-time_variable,0,1,0);
+   glRotatef(-180 * time_variable,0,0,1);
+   glTranslatef(0, 1 ,0);
+   model(2);
+
+   glPopMatrix();
 
    //p++;
 
