@@ -1,5 +1,11 @@
 LIBSDL =  -L/usr/local/lib -Wl,-rpath,/usr/local/lib -lSDL  -lSDL_image -L./
 #use lab 4 Makefile
+
+# make commands below:
+# make solar_system
+# make
+# make clean
+
 one: execute
 	echo done
 
