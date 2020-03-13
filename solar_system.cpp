@@ -1,4 +1,33 @@
-//icos_subdivide.cpp
+/*****************
+ * Programmers: Mike Cheng-Godinez, Montana Williams
+ * Date: March 12, 2020
+ * Description: 
+ * 
+ * This is a model of the Solar System 
+ * using Opengl and SDL2. This program needs to be built
+ * with 'main.cpp' and 'makefile'. This models the Solar System
+ * with the planets Mercury, Venus, Earth, Mars, Jupiter, Saturn,
+ * Uranus, and Neptune revolving around the sun. The model is correct
+ * in physical scales, except the sun, with the reference radius being Earth.
+ * 
+ * Distances from the sun are not physically correct, but for the sake of the model,
+ * they are drawn closer to see the planets. 
+ * 
+ * To compile and run this program, simply type 'make solar_system'
+ * into your terminal of choice.
+ * 
+ * Controls:
+ *    =/-         Increases/Decreases the revolution rate
+ *    w/s         Increases/Decreases camera into y-axis 
+ *    UP/DOWN     Increases/Decreases camera into z-axis
+ *    RIGHT/LEFT  Increases/Decreases camera into x-axis
+ *    t           Toggles the models to wire cubes. Used to see day rotations
+ *    p           Toggles the revolution player
+ *    b/n         Moves the selector across different planets
+ *    0-9         Toggles lights 0-9
+ *    
+ *****************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <GL/glut.h>
