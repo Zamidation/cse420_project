@@ -60,7 +60,11 @@ void light_switch(int n);
 
 void diffuse_color(GLfloat d[4], int p = 10)
 {
-  glMaterialfv(GL_FRONT, GL_DIFFUSE, d);
+   // GLfloat s[4] = {1.0, 1.0, 1.0, 0.5};
+   // glMaterialfv(GL_FRONT, GL_DIFFUSE, d);
+   // glMaterialfv(GL_FRONT, GL_SPECULAR, s);
+   // glMaterialf(GL_FRONT, GL_SHININESS, 175.0);
+
 }
 
 void diffuse_color(float x = 1.0, float y = 1.0, float z = 0.0, float a = 0.5, int p = 10)
@@ -78,12 +82,12 @@ void init(void)
    // GLfloat mat_specular[] = {1.0,1.0,1.0,1.0 };
 
    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 0.5 };
-   GLfloat light[] = { 1.0, 1.0, 1.0};
-                     // { .5, .5, .5};
-   GLfloat light1[] = { 0.5, 0.5, 0.5};
-                     // { .25, .25, .25 };
-   GLfloat light2[] = { 0.5, 0.5, 0.5};
-                     // { .25, .25, .25 };
+   GLfloat light[] = //{ 1.0, 1.0, 1.0};
+                     { .5, .5, .5};
+   GLfloat light1[] = //{ 0.5, 0.5, 0.5};
+                     { .25, .25, .25 };
+   GLfloat light2[] = //{ 0.5, 0.5, 0.5};
+                     { .25, .25, .25 };
    GLfloat lmodel_ambient[] = { 0.5, 0.5, 0.5, 0.5 };
    GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };
    GLfloat light_position1[] = { -1.0, -1.0, -1.0, 0.0 };
@@ -108,7 +112,7 @@ void init(void)
    glLightfv(GL_LIGHT0, GL_AMBIENT, light );
    glLightfv(GL_LIGHT0, GL_SPECULAR, light );
 
-   glLightfv(GL_LIGHT1, GL_POSITION, light_position1);
+   glLightfv(GL_LIGHT1, GL_POSITION, light_position2);
    glLightfv(GL_LIGHT1, GL_DIFFUSE, light1 );
    glLightfv(GL_LIGHT1, GL_AMBIENT, light1 );
    glLightfv(GL_LIGHT1, GL_SPECULAR, light1 );
@@ -449,12 +453,13 @@ void display(void)
    // glRotatef ( time_variable, 0, 1, 0 ); // spin of sun
 
    // glScalef(distance/5 * scale_data[p], distance/5 * scale_data[p], distance/5 * scale_data[p]);
-
+   diffuse_color(0.0, 0.5, 0.7, 0.5);
    light_switch(2);
    planet(models, day_data[p], p);   // sun
    // diffuse_color(1.0, 0.0, 1.0, 0.5, 0);
    glPopMatrix();
    light_switch(2);
+   diffuse_color();
 
 //-------------------------------------
 // if(onetime == false){
