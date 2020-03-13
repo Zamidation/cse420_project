@@ -1,32 +1,38 @@
 /*****************
  * Programmers: Mike Cheng-Godinez, Montana Williams
  * Date: March 12, 2020
+<<<<<<< HEAD
  * Class: CSE 420 Winter 20
  * Description: 
  * 
  * This is a model of the Solar System 
+=======
+ * Description:
+ *
+ * This is a model of the Solar System
+>>>>>>> eaa9020263313351d778f31e6f7525a12f9295f1
  * using Opengl and SDL2. This program needs to be built
  * with 'main.cpp' and 'makefile'. This models the Solar System
  * with the planets Mercury, Venus, Earth, Mars, Jupiter, Saturn,
  * Uranus, and Neptune revolving around the sun. The model is correct
  * in physical scales, except the sun, with the reference radius being Earth.
- * 
+ *
  * Distances from the sun are not physically correct, but for the sake of the model,
- * they are drawn closer to see the planets. 
- * 
+ * they are drawn closer to see the planets.
+ *
  * To compile and run this program, simply type 'make solar_system'
  * into your terminal of choice.
- * 
+ *
  * Controls:
  *    =/-         Increases/Decreases the revolution rate
- *    w/s         Increases/Decreases camera into y-axis 
+ *    w/s         Increases/Decreases camera into y-axis
  *    UP/DOWN     Increases/Decreases camera into z-axis
  *    RIGHT/LEFT  Increases/Decreases camera into x-axis
  *    t           Toggles the models to wire cubes. Used to see day rotations
  *    p           Toggles the revolution player
  *    b/n         Moves the selector across different planets
  *    0-9         Toggles lights 0-9
- *    
+ *
  *****************/
 
 #include <stdio.h>
@@ -58,6 +64,8 @@ float c = 0;
 float distance = 5;
 
 void light_switch(int n);
+// void light_color(GLfloat lc[4], int light = 10);
+// void light_color(float r, float g, float b, float vp, int light = 10);
 
 void diffuse_color(GLfloat d[4], int p = 10)
 {
@@ -76,6 +84,7 @@ void diffuse_color(float x = 1.0, float y = 1.0, float z = 0.0, float a = 0.5, i
   // glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
   // glMaterialf(GL_FRONT, GL_SHININESS, 175.0);
 }
+
 
 void init(void)
 {
@@ -348,6 +357,21 @@ void light_switch(int n)
    }
 }
 
+void light_color(GLfloat lc[4], int light = 10){
+   // glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+   if(light == 10)
+    return;
+   GLfloat position[4] = {0, 0, 0, 0};
+   glLightfv(lss[light], GL_POSITION, position);
+   glLightfv(lss[light], GL_DIFFUSE, lc );
+   glLightfv(lss[light], GL_AMBIENT, lc );
+   glLightfv(lss[light], GL_SPECULAR, lc );
+}
+void light_color(float r, float g, float b, float vp, int light = 10){
+  GLfloat lightColor[4] = {r, g, b, vp};
+  light_color(lightColor, light);
+}
+
 static bool onetime = false;
 
 // GLfloat m
@@ -485,6 +509,10 @@ void display(void)
 
    p++;
 
+   light_color(1.0,0.0,0.0, 0);
+   light_color(1.0,0.0,0.0, 1);
+   light_color(1.0,0.0,0.0, 2);
+
    glPushMatrix();   // Mercury
    glRotatef(time_variable * year_data[p]+26, 0,1,0);
    glTranslatef(2 * distance,0,0);
@@ -494,6 +522,10 @@ void display(void)
    glRotatef(90, 0, 1, 0);
    model(2);
    glPopMatrix();
+
+   // light_color(1.0,1.0,1.0, 0);
+   // light_color(1.0,0.0,0.0, 1);
+   // light_color(1.0,0.0,0.0, 2);
 
 
    p++;
