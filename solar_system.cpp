@@ -58,8 +58,11 @@ float c = 0;
 float distance = 5;
 
 void light_switch(int n);
-// void light_color(GLfloat lc[4], int light = 10);
-// void light_color(float r, float g, float b, float vp, int light = 10);
+void light_color(int light, GLfloat lc[3], GLfloat p[4]);
+void light_color(int light, float r, float g, float b, GLfloat p[4]);
+void light_color(int light, GLfloat lc[3], float p1, float p2, float p3, float vp);
+void light_color(int light, float r, float g, float b, float p1, float p2, float p3, float vp);
+
 
 void diffuse_color(GLfloat d[4], int p = 10)
 {
@@ -135,6 +138,9 @@ void init(void)
    light_switch(1);
    // glEnable(GL_LIGHT1);
    light_switch(2);
+
+   GLfloat light3[3] = {0.7, 0.5, 0};
+   light_color(3, light3, light_position);
 
    glColorMaterial(GL_FRONT, GL_DIFFUSE);
    glEnable(GL_COLOR_MATERIAL);
@@ -351,19 +357,45 @@ void light_switch(int n)
    }
 }
 
-void light_color(GLfloat lc[4], int light = 10){
+void light_color(int light = 10, GLfloat lc[3] = {}, GLfloat p[4] = {}){
    // glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-   if(light == 10)
-    return;
-   GLfloat position[4] = {0, 0, 0, 0};
-   glLightfv(lss[light], GL_POSITION, position);
+   if(light == 10){
+    lc[0] = .5;
+    lc[1] = .5;
+    lc[2] = .5;
+    p[0] = 1.0;
+    p[1] = 1.0;
+    p[2] = 1.0;
+    p[3] = 1.0;
+   }
+   // glLightfv(lss[light], GL_POSITION, p);
    glLightfv(lss[light], GL_DIFFUSE, lc );
    glLightfv(lss[light], GL_AMBIENT, lc );
    glLightfv(lss[light], GL_SPECULAR, lc );
 }
-void light_color(float r, float g, float b, float vp, int light = 10){
-  GLfloat lightColor[4] = {r, g, b, vp};
-  light_color(lightColor, light);
+void light_color(int light = 10, float r = 0.5, float g = 0.5, float b = 0.5, GLfloat p[4] = {}){
+   GLfloat lc[3] = {r, g, b};
+   if(light = 10){
+     p[0] = 1.0;
+     p[1] = 1.0;
+     p[2] = 1.0;
+     p[3] = 1.0;
+   }
+   light_color(light, lc, p);
+}
+void light_color(int light = 10, GLfloat lc[3] = {}, float p1 = 1.0, float p2 = 1.0, float p3 = 1.0, float vp = 1.0){
+   if(light = 10){
+     lc[0] = 0.5;
+     lc[1] = 0.5;
+     lc[2] = 0.5;
+   }
+   GLfloat p[4] = {p1, p2, p3, vp};
+   light_color(light, lc, p);
+}
+void light_color(int light = 10, float r = 0.5, float g = 0.5, float b = 0.5, float p1 = 1.0, float p2 = 1.0, float p3 = 1.0, float vp = 0){
+  GLfloat lightColor[3] = {r, g, b};
+  GLfloat position[4] = {p1, p2, p3, vp};
+  light_color(light, lightColor, position);
 }
 
 static bool onetime = false;
@@ -471,8 +503,13 @@ void display(void)
 
    // glRotatef ( time_variable, 0, 1, 0 ); // spin of sun
 
+   light_switch(0);//lights off
+   light_switch(1);
+   light_switch(2);
+   light_switch(3);
+      // light_color(3, 0.75,0.4,0.0);
    // glScalef(distance/5 * scale_data[p], distance/5 * scale_data[p], distance/5 * scale_data[p]);
-   diffuse_color(0.0, 0.5, 0.7, 0.5);
+   diffuse_color(0.0, 0.5, 0.7, 0.5, 0);
    light_switch(2);
    planet(models, day_data[p], p);   // sun
    glScalef(.25,.25,.25);
@@ -482,6 +519,11 @@ void display(void)
    glPopMatrix();
    light_switch(2);
    diffuse_color();
+      // light_color(0,0,0,0);
+   light_switch(0);//lights on
+   light_switch(1);
+   light_switch(2);
+   light_switch(3);
 
 //-------------------------------------
 // if(onetime == false){
@@ -503,9 +545,9 @@ void display(void)
 
    p++;
 
-   light_color(1.0,0.0,0.0, 0);
-   light_color(1.0,0.0,0.0, 1);
-   light_color(1.0,0.0,0.0, 2);
+   // light_switch(3);
+   // light_color(1.0,0.0,0.0, 1, 1);
+   // light_color(1.0,0.0,0.0, 1, 2);
 
    glPushMatrix();   // Mercury
    glRotatef(time_variable * year_data[p]+26, 0,1,0);
@@ -517,7 +559,6 @@ void display(void)
    model(2);
    glPopMatrix();
 
-   // light_color(1.0,1.0,1.0, 0);
    // light_color(1.0,0.0,0.0, 1);
    // light_color(1.0,0.0,0.0, 2);
 
