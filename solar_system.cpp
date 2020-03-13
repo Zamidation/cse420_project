@@ -1,6 +1,7 @@
 /*****************
  * Programmers: Mike Cheng-Godinez, Montana Williams
  * Date: March 12, 2020
+ * Class: CSE 420 Winter 20
  * Description: 
  * 
  * This is a model of the Solar System 
@@ -456,6 +457,9 @@ void display(void)
    diffuse_color(0.0, 0.5, 0.7, 0.5);
    light_switch(2);
    planet(models, day_data[p], p);   // sun
+   glScalef(.25,.25,.25);
+   glRotatef(90, 0, 1, 0);
+   model(2);
    // diffuse_color(1.0, 0.0, 1.0, 0.5, 0);
    glPopMatrix();
    light_switch(2);
@@ -486,6 +490,9 @@ void display(void)
    glTranslatef(2 * distance,0,0);
    glScalef(distance/5 * scale_data[p], distance/5 * scale_data[p], distance/5 * scale_data[p]);
    planet(models, day_data[p], p);
+   glScalef(.25,.25,.25);
+   glRotatef(90, 0, 1, 0);
+   model(2);
    glPopMatrix();
 
 
@@ -496,6 +503,9 @@ void display(void)
    glTranslatef(4 * distance,0,0);
    glScalef(distance/5 * scale_data[p], distance/5 * scale_data[p], distance/5 * scale_data[p]);
    planet(models, day_data[p], p);
+   glScalef(.25,.25,.25);
+   glRotatef(90, 0, 1, 0);
+   model(2);
    glPopMatrix();
 
    p++;
@@ -509,7 +519,7 @@ void display(void)
 
    glPushMatrix();
 
-   glRotatef(10 * time_variable,0,0,1);
+   glRotatef(20 * time_variable,0,0,1);
    glTranslatef(0, 1 ,0);
    model(2);
 
@@ -549,6 +559,9 @@ void display(void)
    glTranslatef(8 * distance,0,0);
    glScalef(distance/5 * scale_data[p], distance/5 * scale_data[p], distance/5 * scale_data[p]);
    planet(models, day_data[p], p);
+   glScalef(.25,.25,.25);
+   glRotatef(90, 0, 1, 0);
+   model(2);
    glPopMatrix();
 
    p++;
@@ -559,6 +572,9 @@ void display(void)
    glTranslatef(20 * distance,0,0);
    glScalef(distance/5 * scale_data[p], distance/5 * scale_data[p], distance/5 * scale_data[p]);
    planet(models, day_data[p], p);
+   glScalef(.25,.25,.25);
+   glRotatef(90, 0, 1, 0);
+   model(2);
    glPopMatrix();
 
    p++;
@@ -573,6 +589,14 @@ void display(void)
    glScalef(1,.01,1);
    glRotatef(90, 1,0,0);
    glutSolidTorus(.175,1,50,50);
+   glPopMatrix();
+
+   glPushMatrix();
+   glRotatef(-10*time_variable, 0,1,0);
+   glTranslatef(0,.5,1);
+   // glScalef(.25,.25,.25);
+   // glRotatef(90, 0, 1, 0);
+   model(2);
    glPopMatrix();
 
    planet(models, day_data[p], p);
